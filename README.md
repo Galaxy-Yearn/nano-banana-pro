@@ -109,7 +109,7 @@ Examples:
 Edit input image 1 into a 4:5 catalog photo, preserve exact product shape/logo/color, off-white seamless background, soft studio shadow.
 ```
 
-For more prompt guidance, see `references/prompting.md`.
+For complex preservation, composition, text, icon, or infographic prompts, see `references/prompting.md`.
 
 ## Constraints
 
@@ -125,7 +125,7 @@ For more prompt guidance, see `references/prompting.md`.
 
 - `SKILL.md`: Codex skill instructions.
 - `scripts/generate_image.py`: image generation/editing script.
-- `references/prompting.md`: concise prompting reference.
+- `references/prompting.md`: complex prompt templates for high-precision cases.
 - `agents/openai.yaml`: Codex UI metadata.
 - `.env.example`: safe configuration template.
 - `.gitignore`: excludes local secrets and logs.

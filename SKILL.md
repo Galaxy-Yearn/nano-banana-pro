@@ -9,17 +9,19 @@ Use `scripts/generate_image.py` to generate or edit local images. The script rea
 
 ## Workflow
 
-1. Write one compact prompt that directly states the desired image, including ratio or size when relevant.
-2. Run the script from this skill directory with `uv run scripts/generate_image.py`. If the caller must set a timeout, use `timeout_ms: 900000`.
-3. Return the single `Saved image:` path for the request.
-4. Only use `1K`, `2K`, or `4K` for image size. Do not request or imply `512`, `0.5K`, or any other size in prompts or flags.
-5. This workflow supports exactly one output image per request. Do not use it for multi-image output batches.
+1. Write one compact production prompt that states the image directly.
+2. Put ratio or size in the prompt only when it matters. If specifying size, use exactly `1K`, `2K`, or `4K`; never use `512`, `0.5K`, pixel dimensions, or vague size words.
+3. Run the script from this skill directory with `uv run scripts/generate_image.py`. If a timeout is needed, use `timeout_ms: 900000`.
+4. Return the single `Saved image:` path.
+5. Generate exactly one output image per request. Do not use this skill for output batches.
 
 ## Prompt Rule
 
-Use the shortest prompt that fully specifies the result. Prefer concrete nouns and constraints over style padding.
+Use the shortest prompt that fully specifies the result. Prefer concrete nouns, composition, and hard constraints over generic quality words.
 
-Good structure: `[output type], [subject], [composition/ratio], [style or medium], [lighting/color], [must preserve or exclude].`
+Default form: `[ratio/size] [asset type], [subject], [composition], [style/medium], [lighting/color], [hard constraints].`
+
+Keep one sentence unless the task has multiple input images or exact visible text. Do not add filler such as `high quality`, `masterpiece`, `ultra detailed`, or long negative prompts.
 
 Examples:
 
@@ -27,15 +29,11 @@ Examples:
 - `16:9 cinematic product hero, matte black espresso machine on travertine counter, morning side light, shallow depth of field, premium editorial, no text.`
 - `Edit input image 1 into a 4:5 catalog photo, preserve exact product shape/logo/color, off-white seamless background, soft studio shadow.`
 
-For edits or composition, name each input image by order and state what to preserve. Do not add long negative prompts unless needed.
+For edits or composition, name each input image by order and state what to preserve. The script infers `aspect_ratio` and `image_size` from prompt tokens such as `1:1`, `4:5`, `16:9`, `1K`, `2K`, or `4K`. Use `--aspect-ratio` or `--resolution` only to override ambiguity.
 
-The script infers `aspect_ratio` and `image_size` from the prompt when it sees values like `1:1`, `4:5`, `16:9`, `1K`, `2K`, or `4K`.
+Valid explicit image sizes are exactly `1K`, `2K`, and `4K`. Omit size when the user does not need to control it.
 
-This skill only supports three image sizes: `1K`, `2K`, and `4K`.
-
-Do not use `512`, `0.5K`, or any other size in prompts or flags. If size is ambiguous, use `--resolution` and set it to `1K`, `2K`, or `4K`.
-
-Read `references/prompting.md` only when you need a more precise, efficient prompt, especially for edits, multi-image composition, or exact text/layout constraints.
+Read `references/prompting.md` only for high-risk prompts: product or identity preservation, multi-image composition, exact text/layout, transparent icons/logos, posters, or infographics. Do not read it for simple text-to-image tasks.
 
 ## Commands
 
