@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nano Banana Pro"
+  short_description: "Generate and edit images with Gemini"
+  default_prompt: "Use $nano-banana-pro to generate a polished image from my prompt."
